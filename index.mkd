@@ -1,0 +1,207 @@
+#MVC приложение на node.js и express
+
+---
+
+##Содержание
+
+* ####[Вступление](#introduction)
+
+* ####[Глава 1. Старт](#chapter-1)
+    * [1.1 Рабочее окружение](#environment)
+        * [1.1.1 Установка git](#git-install)
+        * [1.1.2 Установка node.js и npm](#node-install)
+        * [1.1.3 Среда разработки](#ide)
+        * [1.1.4 Hello, World!](#hello-world)
+    * [1.2 Система контроля версий](#version-control)
+        * [1.2.1 Настройка git](#git-setup)
+        * [1.2.2 Workflow](#git-workflow)
+        * [1.2.3 github](#github)
+    * [1.3 Разворачиваем приложение](#deploying)
+        * [1.3.1 Настройка Heroku](#heroku-setup)
+        * [1.3.2 Разворачиваем приложение](#deploy-hello-world)
+
+* ####[Глава 2. Статические страницы](#static-pages)
+
+
+* ####[Глава 3. Модель пользователя](#user-model)
+
+---
+
+##<a name="introduction">Вступление</a>
+
+Бла-бла-бла .. нода - это очень круто.
+
+---
+
+##<a name="chapter-1">Глава 1. Старт</a>
+
+В этой главе мы развернем рабочее окружение с нуля, установим все необходимые инструменты, создадим простенькое приложение и даже выложим его на прод.
+
+###<a name="environment">1.1 Рабочее окружение</a>
+
+Бла-бла-бла...
+
+####<a name="git-install">1.1.1 Установка git</a>
+
+    $ sudo apt-get install git-core
+
+####<a name="node-install">1.1.2 Установка node.js и npm</a>
+
+https://github.com/joyent/node/wiki/Installation
+
+    $ sudo apt-get install python g++ curl libssl-dev apache2-utils
+
+    $ cd /tmp
+    $ git clone https://github.com/joyent/node.git
+    $ cd node
+    $ git checkout v0.8.1
+    $ ./configure
+    $ make
+    $ sudo make install
+    $ node -v # v0.8.1
+    $ npm -v # 1.1.33
+
+####<a name="ide">1.1.3 Среда разработки</a>
+
+gedit gmate
+
+####<a name="hello-world">1.1.4 Hello, World!</a>
+
+    $ sudo npm install -g express@3.0
+
+    $ mkdir -p ~/projects/node-tutorial
+    $ cd ~/projects/node-tutorial
+
+    $ express hello
+    $ cd hello && npm install
+
+    $ node app
+
+http://localhost:3000/
+
+###<a name="version-control">1.2 Система контроля версий</a>
+
+Используем git
+
+####<a name="git-setup">1.2.1 Настройка git</a>
+
+Личные данные:
+
+    $ git config --global user.name "Your Name"
+    $ git config --global user.email your.email@example.com
+
+Алиасы:
+
+    $ git config --global alias.co checkout
+    $ git config --global alias.ci commit
+
+####<a name="git-workflow">1.2.2 Работа с git</a>
+
+Инициализируем новый репозиторий:
+
+    $ git init
+
+Добавляем директорию с зависимостями в gitignore:
+
+    $ echo '/node_modules' > .gitignore
+
+Помещаем все фейлы в индекс и коммитим:
+
+    $ git add .
+    $ git ci -m "Initial commit"
+
+####<a name="github">1.2.3 github</a>
+
+Регистрируемся на https://github.com/
+
+Создаем новый репозиторий node-demo-app
+
+Выкладываем код на гитхаб:
+
+    $ git remote add origin git@github.com:username/node-demo-app.git
+    $ git push -u origin master
+
+###<a name="deploying">1.3 Разворачиваем приложение</a>
+
+Пару слов о хостинге heroku...
+
+####<a name="heroku-setup">1.3.1 Настройка Heroku</a>
+
+Регистрируемся на heroku.com
+
+Тут инструкции по установке: https://toolbelt.heroku.com/
+
+На убунте:
+
+    $ wget -qO- https://toolbelt.heroku.com/install.sh | sh
+
+Вводим свои данные авторизации:
+
+    $ heroku login
+
+####<a name="deploy-hello-world">1.3.2 Размещаем приложение на heroku</a>
+
+https://devcenter.heroku.com/articles/nodejs
+
+Перед тем как выкладывать код на heroku, надо в файле package.json указать версии ноды и npm, package.json должен выглядеть так:
+
+    {
+      "name": "application-name",
+      "version": "0.0.1",
+      "private": true,
+      "scripts": {
+        "start": "node app"
+      },
+      "dependencies": {
+        "express": "3.0.0beta4",
+        "jade": "*"
+      },
+      "engines": {
+        "node": "0.8.x",
+        "npm": "1.1.x"
+      }
+    }
+
+Теперь создаем файл Procfile:
+
+    $ echo 'web: node app.js'  > Procfile
+
+Проверяем что все запускается:
+
+    $ foreman start
+
+Приложение должно быть доступно на http://localhost:5000/
+
+Добавляем файлы в репозиторий:
+    
+    $ git add .
+    $ git ci -m "Added Procfile and engines"
+    $ git push
+
+Создаем приложение на heroku:
+
+    $ heroku create
+    $ git push heroku master
+
+Набираем:
+
+    $ heroku open
+
+и любуемся задеплоеным приложением.
+
+---
+
+##<a name="static-pages">Глава 2. Статические страницы</a>
+
+Suspendisse hendrerit quam mollis magna pharetra ac convallis justo laoreet. Morbi sit amet malesuada arcu. Sed adipiscing tempus rutrum. Aenean lacinia metus et augue aliquam pulvinar. Praesent nulla ante, ullamcorper vitae varius quis, ullamcorper sit amet risus. Nulla facilisi. Ut risus arcu, convallis a ornare eu, tempor sed elit. Mauris auctor, tellus cursus congue convallis, lorem neque hendrerit turpis, at viverra erat ipsum ut nunc. Fusce non lectus massa, vitae imperdiet lorem. Curabitur dapibus ullamcorper est, ut vestibulum 
+diam sollicitudin sit amet. 
+
+---
+
+##<a name="user-model">Глава 3. Модель пользователя</a>
+
+Suspendisse hendrerit quam mollis magna pharetra ac convallis justo laoreet. Morbi sit amet malesuada arcu. Sed adipiscing tempus rutrum. Aenean lacinia metus et augue aliquam pulvinar. Praesent nulla ante, ullamcorper vitae varius quis, ullamcorper sit amet risus. Nulla facilisi. Ut risus arcu, convallis a ornare eu, tempor sed elit. Mauris auctor, tellus cursus congue convallis, lorem neque hendrerit turpis, at viverra erat ipsum ut nunc. Fusce non lectus massa, vitae imperdiet lorem. Curabitur dapibus ullamcorper est, ut vestibulum 
+diam sollicitudin sit amet. 
+
+---
+Copyright David Klassen, 2012. 

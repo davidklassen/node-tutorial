@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="ReText 3.1.0">
+  <title>index</title>
+</head>
+<body>
+<h1>MVC приложение на node.js и express</h1>
+<hr>
+<h2>Содержание</h2>
+<ul>
+<li>
+<h4><a href="#introduction">Вступление</a></h4>
+</li>
+<li>
+<h4><a href="#chapter-1">Глава 1. Старт</a></h4>
+<ul>
+<li><a href="#environment">1.1 Рабочее окружение</a><ul>
+<li><a href="#git-install">1.1.1 Установка git</a></li>
+<li><a href="#node-install">1.1.2 Установка node.js и npm</a></li>
+<li><a href="#ide">1.1.3 Среда разработки</a></li>
+<li><a href="#hello-world">1.1.4 Hello, World!</a></li>
+</ul>
+</li>
+<li><a href="#version-control">1.2 Система контроля версий</a><ul>
+<li><a href="#git-setup">1.2.1 Настройка git</a></li>
+<li><a href="#git-workflow">1.2.2 Workflow</a></li>
+<li><a href="#github">1.2.3 github</a></li>
+</ul>
+</li>
+<li><a href="#deploying">1.3 Разворачиваем приложение</a><ul>
+<li><a href="#heroku-setup">1.3.1 Настройка Heroku</a></li>
+<li><a href="#deploy-hello-world">1.3.2 Разворачиваем приложение</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h4><a href="#static-pages">Глава 2. Статические страницы</a></h4>
+</li>
+<li>
+<h4><a href="#user-model">Глава 3. Модель пользователя</a></h4>
+</li>
+</ul>
+<hr>
+<h2><a name="introduction">Вступление</a></h2>
+<p>Бла-бла-бла .. нода - это очень круто.</p>
+<hr>
+<h2><a name="chapter-1">Глава 1. Старт</a></h2>
+<p>В этой главе мы развернем рабочее окружение с нуля, установим все необходимые инструменты, создадим простенькое приложение и даже выложим его на прод.</p>
+<h3><a name="environment">1.1 Рабочее окружение</a></h3>
+<p>Бла-бла-бла...</p>
+<h4><a name="git-install">1.1.1 Установка git</a></h4>
+<pre><code>$ sudo apt-get install git-core
+</code></pre>
+<h4><a name="node-install">1.1.2 Установка node.js и npm</a></h4>
+<p>https://github.com/joyent/node/wiki/Installation</p>
+<pre><code>$ sudo apt-get install python g++ curl libssl-dev apache2-utils
+
+$ cd /tmp
+$ git clone https://github.com/joyent/node.git
+$ cd node
+$ git checkout v0.8.1
+$ ./configure
+$ make
+$ sudo make install
+$ node -v # v0.8.1
+$ npm -v # 1.1.33
+</code></pre>
+<h4><a name="ide">1.1.3 Среда разработки</a></h4>
+<p>gedit gmate</p>
+<h4><a name="hello-world">1.1.4 Hello, World!</a></h4>
+<pre><code>$ sudo npm install -g express@3.0
+
+$ mkdir -p ~/projects/node-tutorial
+$ cd ~/projects/node-tutorial
+
+$ express hello
+$ cd hello &amp;&amp; npm install
+
+$ node app
+</code></pre>
+<p>http://localhost:3000/</p>
+<h3><a name="version-control">1.2 Система контроля версий</a></h3>
+<p>Используем git</p>
+<h4><a name="git-setup">1.2.1 Настройка git</a></h4>
+<p>Личные данные:</p>
+<pre><code>$ git config --global user.name "Your Name"
+$ git config --global user.email your.email@example.com
+</code></pre>
+<p>Алиасы:</p>
+<pre><code>$ git config --global alias.co checkout
+$ git config --global alias.ci commit
+</code></pre>
+<h4><a name="git-workflow">1.2.2 Работа с git</a></h4>
+<p>Инициализируем новый репозиторий:</p>
+<pre><code>$ git init
+</code></pre>
+<p>Добавляем директорию с зависимостями в gitignore:</p>
+<pre><code>$ echo '/node_modules' &gt; .gitignore
+</code></pre>
+<p>Помещаем все фейлы в индекс и коммитим:</p>
+<pre><code>$ git add .
+$ git ci -m "Initial commit"
+</code></pre>
+<h4><a name="github">1.2.3 github</a></h4>
+<p>Регистрируемся на https://github.com/</p>
+<p>Создаем новый репозиторий node-demo-app</p>
+<p>Выкладываем код на гитхаб:</p>
+<pre><code>$ git remote add origin git@github.com:username/node-demo-app.git
+$ git push -u origin master
+</code></pre>
+<h3><a name="deploying">1.3 Разворачиваем приложение</a></h3>
+<p>Пару слов о хостинге heroku...</p>
+<h4><a name="heroku-setup">1.3.1 Настройка Heroku</a></h4>
+<p>Регистрируемся на heroku.com</p>
+<p>Тут инструкции по установке: https://toolbelt.heroku.com/</p>
+<p>На убунте:</p>
+<pre><code>$ wget -qO- https://toolbelt.heroku.com/install.sh | sh
+</code></pre>
+<p>Вводим свои данные авторизации:</p>
+<pre><code>$ heroku login
+</code></pre>
+<h4><a name="deploy-hello-world">1.3.2 Размещаем приложение на heroku</a></h4>
+<p>https://devcenter.heroku.com/articles/nodejs</p>
+<p>Перед тем как выкладывать код на heroku, надо в файле package.json указать версии ноды и npm, package.json должен выглядеть так:</p>
+<pre><code>{
+  "name": "application-name",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "express": "3.0.0beta4",
+    "jade": "*"
+  },
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
+  }
+}
+</code></pre>
+<p>Теперь создаем файл Procfile:</p>
+<pre><code>$ echo 'web: node app.js'  &gt; Procfile
+</code></pre>
+<p>Проверяем что все запускается:</p>
+<pre><code>$ foreman start
+</code></pre>
+<p>Приложение должно быть доступно на http://localhost:5000/</p>
+<p>Добавляем файлы в репозиторий:</p>
+<pre><code>$ git add .
+$ git ci -m "Added Procfile and engines"
+$ git push
+</code></pre>
+<p>Создаем приложение на heroku:</p>
+<pre><code>$ heroku create
+$ git push heroku master
+</code></pre>
+<p>Набираем:</p>
+<pre><code>$ heroku open
+</code></pre>
+<p>и любуемся задеплоеным приложением.</p>
+<hr>
+<h2><a name="static-pages">Глава 2. Статические страницы</a></h2>
+<p>Suspendisse hendrerit quam mollis magna pharetra ac convallis justo laoreet. Morbi sit amet malesuada arcu. Sed adipiscing tempus rutrum. Aenean lacinia metus et augue aliquam pulvinar. Praesent nulla ante, ullamcorper vitae varius quis, ullamcorper sit amet risus. Nulla facilisi. Ut risus arcu, convallis a ornare eu, tempor sed elit. Mauris auctor, tellus cursus congue convallis, lorem neque hendrerit turpis, at viverra erat ipsum ut nunc. Fusce non lectus massa, vitae imperdiet lorem. Curabitur dapibus ullamcorper est, ut vestibulum 
+diam sollicitudin sit amet. </p>
+<hr>
+<h2><a name="user-model">Глава 3. Модель пользователя</a></h2>
+<p>Suspendisse hendrerit quam mollis magna pharetra ac convallis justo laoreet. Morbi sit amet malesuada arcu. Sed adipiscing tempus rutrum. Aenean lacinia metus et augue aliquam pulvinar. Praesent nulla ante, ullamcorper vitae varius quis, ullamcorper sit amet risus. Nulla facilisi. Ut risus arcu, convallis a ornare eu, tempor sed elit. Mauris auctor, tellus cursus congue convallis, lorem neque hendrerit turpis, at viverra erat ipsum ut nunc. Fusce non lectus massa, vitae imperdiet lorem. Curabitur dapibus ullamcorper est, ut vestibulum 
+diam sollicitudin sit amet. </p>
+<hr>
+<p>Copyright David Klassen, 2012. </p>
+</body>
+</html>
