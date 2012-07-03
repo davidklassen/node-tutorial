@@ -111,7 +111,7 @@
 Создаем проект и устанавливаем зависимости:
 
     $ express node-demo-app
-    $ cd hello && npm node-demo-app
+    $ cd node-demo-app && npm install
 
 Теперь можно заглянуть в то что нам сгенерировал генератор приложений, вот внутренности app.js:
 
