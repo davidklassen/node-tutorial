@@ -6,7 +6,8 @@
   <title>index</title>
 </head>
 <body>
-<h1>MVC приложение на node.js и express</h1>
+<h1>Web-разработка на node.js и express</h1>
+<h3>Изучаем node.js на практике</h3>
 <hr>
 <h2>Содержание</h2>
 <ul>
@@ -20,7 +21,7 @@
 <li><a href="#git-install">1.1.1 Установка git</a></li>
 <li><a href="#node-install">1.1.2 Установка node.js и npm</a></li>
 <li><a href="#ide">1.1.3 Среда разработки</a></li>
-<li><a href="#hello-world">1.1.4 Hello, World!</a></li>
+<li><a href="#hello-world">1.1.4 Express и первое приложение</a></li>
 </ul>
 </li>
 <li><a href="#version-control">1.2 Система контроля версий</a><ul>
@@ -45,86 +46,142 @@
 </ul>
 <hr>
 <h2><a name="introduction">Вступление</a></h2>
-<p>Бла-бла-бла .. нода - это очень круто.</p>
+<p>Приветствую, перед вами небольшой учебник по практической разработке на node.js, с использованием фреймворка express. Я с большим энтузиазмом отношусь к node и сопутствующим технологиям. Node.js в первую очередь привлекает свежестью в подходах к разработке, смелостью и драйвом.</p>
+<p>О том, что такое node.js вы можете прочитать на <a href="http://nodejs.org/">http://nodejs.org/</a>, если коротко - то это серверная платформа, для выполнения javascript. Так же мы будем использовать express, web-фреймворк построеный на концепции <a href="http://stephensugden.com/middleware_guide/">middleware</a> (о том, что это такое, поговорим поподробнее чуть позже)</p>
+<p>В процессе изучения мы познакомимся с различными аспектами web-разработки, такими как использование системы контроля версий, автоматическое тестирование и так далее. В результате по ходу изучения мы разработаем вполне рабочее web-приложение (простенький аналог твиттера)</p>
+<p>Хочется отметить, что очень большое влияние на меня оказал <a href="http://ruby.railstutorial.org/ruby-on-rails-tutorial-book">railstutorial</a>, это лучшее пособие по web-разработке, которое я встречал, и мне очень хотелось бы создать нечто подобное для node.js.</p>
 <hr>
 <h2><a name="chapter-1">Глава 1. Старт</a></h2>
-<p>В этой главе мы развернем рабочее окружение с нуля, установим все необходимые инструменты, создадим простенькое приложение и даже выложим его на прод.</p>
+<p>В этой главе мы развернем рабочее окружение с нуля, установим все необходимые инструменты, создадим простенькое приложение и даже запустим его на облачном хостинге.</p>
 <h3><a name="environment">1.1 Рабочее окружение</a></h3>
-<p>Бла-бла-бла...</p>
+<p>Так как я в основном использую в работе linux, а если точнее - Ubuntu 12.04, основная часть инструкций по установке тех или иных инструментов будет ориентирована на ползователей линукс, но я буду стараться по возможности давать ссылки на инструкции и для других ОС.</p>
+<p>Для того чтобы точно следовать инструкциям в учебнике, вам нужно будет поставить систему контроля версий <a href="http://ru.wikipedia.org/wiki/Git">git</a>, дело в том, что мы не только будем размещать код своих проектов в git, но и устанавливать многие инструменты из репозиториев на <a href="https://github.com/">гитхабе</a>.</p>
+<p>Так что, первое что мы сделаем - это...</p>
 <h4><a name="git-install">1.1.1 Установка git</a></h4>
+<p>Пользователи apt-based дистрибутивов могут выполнить в терминале:</p>
 <pre><code>$ sudo apt-get install git-core
 </code></pre>
+<p>Остальные отправляются читать инструкции по адресу <a href="http://git-scm.com/book/ch1-4.html">http://git-scm.com/book/ch1-4.html</a></p>
 <h4><a name="node-install">1.1.2 Установка node.js и npm</a></h4>
-<p>https://github.com/joyent/node/wiki/Installation</p>
+<p>Теперь пришло время поставить последнюю стабильню версию node.js (на текущий момент это 0.8.1) и npm (установщик пакетов для node). </p>
+<p>Инструкции по установке разных ОС можно найти <a href="https://github.com/joyent/node/wiki/Installation">здесь</a></p>
+<p>Для начала устанавливаем все что необходимо для компиляции пакета из исходников:</p>
 <pre><code>$ sudo apt-get install python g++ curl libssl-dev apache2-utils
-
-$ cd /tmp
+</code></pre>
+<p>Теперь скачиваем исходный код:</p>
+<pre><code>$ cd /tmp
 $ git clone https://github.com/joyent/node.git
 $ cd node
 $ git checkout v0.8.1
-$ ./configure
+</code></pre>
+<p>Посделний этап - компиляция и установка:</p>
+<pre><code>$ ./configure
 $ make
 $ sudo make install
-$ node -v # v0.8.1
-$ npm -v # 1.1.33
 </code></pre>
+<p>Когда все благополучно завершится, можно проверить версии пакетов, должно получиться:</p>
+<pre><code>$ node -v
+v0.8.1
+$ npm -v
+1.1.33
+</code></pre>
+<p>Если есть желание - можно запустить консоль node и поиграться с интерпретатором javascript.</p>
 <h4><a name="ide">1.1.3 Среда разработки</a></h4>
-<p>gedit gmate</p>
-<h4><a name="hello-world">1.1.4 Hello, World!</a></h4>
+<p>Тут каждый волен выбирать по своему вкусу, лично меня вполне устраивает gedit с установленным набором плагинов <a href="https://github.com/gmate/gmate/">gmate</a>. Вполне подходят Netbeans или Webstorm.</p>
+<h4><a name="hello-world">1.1.4 Express и первое приложение</a></h4>
+<p>Теперь пришло время познакомиться с фреймворком <a href="http://expressjs.com/">express</a>. Фреймворк очень простой, и вполне приемлемо документированный. Единственный неудобный момент - это то, что мы будем использовать бета версию 3.0.x а документация на официальном сайте написана для 2.x, так что советую иметь под рукой <a href="https://github.com/visionmedia/express/wiki/Migrating-from-2.x-to-3.x">migration guide</a></p>
+<p>Устанавливаем express глобально:</p>
 <pre><code>$ sudo npm install -g express@3.0
-
-$ mkdir -p ~/projects/node-tutorial
-$ cd ~/projects/node-tutorial
-
-$ express hello
-$ cd hello &amp;&amp; npm install
-
-$ node app
 </code></pre>
-<p>http://localhost:3000/</p>
+<p>Создаем директорию для наших учебных проектов:</p>
+<pre><code>$ mkdir -p ~/projects/node-tutorial
+$ cd ~/projects/node-tutorial
+</code></pre>
+<p>Создаем проект и устанавливаем зависимости:</p>
+<pre><code>$ express node-demo-app
+$ cd hello &amp;&amp; npm node-demo-app
+</code></pre>
+<p>Теперь можно заглянуть в то что нам сгенерировал генератор приложений, вот внутренности app.js:</p>
+<pre><code>/**
+ * Module dependencies.
+ */
+
+var express = require('express')
+  , routes = require('./routes')
+  , http = require('http');
+
+var app = express();
+
+app.configure(function(){
+  app.set('port', process.env.PORT || 3000);
+  app.set('views', __dirname + '/views');
+  app.set('view engine', 'jade');
+  app.use(express.favicon());
+  app.use(express.logger('dev'));
+  app.use(express.bodyParser());
+  app.use(express.methodOverride());
+  app.use(app.router);
+  app.use(express.static(__dirname + '/public'));
+});
+
+app.configure('development', function(){
+  app.use(express.errorHandler());
+});
+
+app.get('/', routes.index);
+
+http.createServer(app).listen(app.get('port'), function(){
+  console.log("Express server listening on port " + app.get('port'));
+});
+</code></pre>
+<p>Думаю, что люди знакомые с javascript могут предположить что тут происходит. Подключаются необходимые модули, конфигурируется приложение и запускается на 3000-м порту.</p>
+<p>Теперь приложение можно запустить:</p>
+<pre><code>$ node app
+</code></pre>
+<p>И увидеть результат работы <a href="http://localhost:3000/">http://localhost:3000/</a></p>
 <h3><a name="version-control">1.2 Система контроля версий</a></h3>
-<p>Используем git</p>
+<p>Теперь, когда у нас уже есть рабочее приложение, более подробно коснемся работы с сисемой контроля версий. Для того чтобы лучше познакомиться с работой git, стоит почитать книжку <a href="http://git-scm.com/book">Pro Git</a>, но можно и обойтись инструкциями в данном учебнике.</p>
 <h4><a name="git-setup">1.2.1 Настройка git</a></h4>
-<p>Личные данные:</p>
+<p>Для более комфортной работы с git стоит сначала указать свои личные данные:</p>
 <pre><code>$ git config --global user.name "Your Name"
 $ git config --global user.email your.email@example.com
 </code></pre>
-<p>Алиасы:</p>
+<p>И настроить алиасы для наиболее часто используемых комманд:</p>
 <pre><code>$ git config --global alias.co checkout
 $ git config --global alias.ci commit
 </code></pre>
 <h4><a name="git-workflow">1.2.2 Работа с git</a></h4>
-<p>Инициализируем новый репозиторий:</p>
+<p>Git настроен и можно размещать наше приложение в репозитории, инициализируем новый репозиторий:</p>
 <pre><code>$ git init
 </code></pre>
-<p>Добавляем директорию с зависимостями в gitignore:</p>
+<p>Добавляем директорию с зависимостями приложения в gitignore:</p>
 <pre><code>$ echo '/node_modules' &gt; .gitignore
 </code></pre>
-<p>Помещаем все файлы в индекс и коммитим:</p>
+<p>Помещаем все файлы в индекс и создаем первый коммит:</p>
 <pre><code>$ git add .
 $ git ci -m "Initial commit"
 </code></pre>
 <h4><a name="github">1.2.3 github</a></h4>
-<p>Регистрируемся на https://github.com/</p>
-<p>Создаем новый репозиторий node-demo-app</p>
+<p>После размещения кода проекта в репозитории пришло время выложить проект на <a href="http://github.com/">GitHub</a>. GitHub - это социальная сеть и хостинг для проектов. Огромное число opensource проектов хостится на гитхабе, так что если вы там еще не зарегистрированы - самое время <a href="http://github.com/signup/free">сделать это</a> (возможно вам придется сначала <a href="https://help.github.com/articles/generating-ssh-keys">разобраться с ssh ключами</a>)</p>
+<p><a href="https://github.com/new">Создаем</a> новый репозиторий node-demo-app.</p>
 <p>Выкладываем код на гитхаб:</p>
-<pre><code>$ git remote add origin git@github.com:username/node-demo-app.git
+<pre><code>$ git remote add origin git@github.com:ваш_ник_на_гитхабе/node-demo-app.git
 $ git push -u origin master
 </code></pre>
 <h3><a name="deploying">1.3 Разворачиваем приложение</a></h3>
-<p>Пару слов о хостинге heroku...</p>
+<p>Теперь наступает самый волнующий этап, мы будем разворачивать приложение на хостинге.
+Для этого воспользуемся услугами облачной системы деплоя <a href="http://www.heroku.com/">Heroku</a>.</p>
 <h4><a name="heroku-setup">1.3.1 Настройка Heroku</a></h4>
-<p>Регистрируемся на heroku.com</p>
-<p>Тут инструкции по установке: https://toolbelt.heroku.com/</p>
-<p>На убунте:</p>
+<p>Для начала нам надо <a href="https://api.heroku.com/signup">зарегистрироваться</a> и установить необходимый <a href="https://toolbelt.heroku.com/">инструментарий</a>.</p>
+<p>Пользователи ubuntu выполняют:</p>
 <pre><code>$ wget -qO- https://toolbelt.heroku.com/install.sh | sh
 </code></pre>
-<p>Вводим свои данные авторизации:</p>
+<p>Когда установка завершится, нужно будет залогиниться из коммандной строки:</p>
 <pre><code>$ heroku login
 </code></pre>
 <h4><a name="deploy-hello-world">1.3.2 Размещаем приложение на heroku</a></h4>
-<p>https://devcenter.heroku.com/articles/nodejs</p>
-<p>Перед тем как выкладывать код на heroku, надо в файле package.json указать версии ноды и npm, package.json должен выглядеть так:</p>
+<p>Теперь наше окружение полностью готов к выкладке на хостинг. Размещение node.js проекта на Heroku требует еще нескольких действий, вы можете почитать об этом в <a href="https://devcenter.heroku.com/articles/nodejs">документации</a> или просто выполнить инструкции.</p>
+<p>В файле package.json нашего проекта, нужно указать версии ноды и npm, package.json должен выглядеть так:</p>
 <pre><code>{
   "name": "application-name",
   "version": "0.0.1",
@@ -142,13 +199,13 @@ $ git push -u origin master
   }
 }
 </code></pre>
-<p>Теперь создаем файл Procfile:</p>
+<p>Теперь в корне проекта создаем файл Procfile:</p>
 <pre><code>$ echo 'web: node app.js'  &gt; Procfile
 </code></pre>
-<p>Проверяем что все запускается:</p>
+<p>Проверяем что все запускается с помощью менеджера процессов:</p>
 <pre><code>$ foreman start
 </code></pre>
-<p>Приложение должно быть доступно на http://localhost:5000/</p>
+<p>Приложение должно быть доступно на <a href="http://localhost:5000/">http://localhost:5000/</a></p>
 <p>Добавляем файлы в репозиторий:</p>
 <pre><code>$ git add .
 $ git ci -m "Added Procfile and engines"
