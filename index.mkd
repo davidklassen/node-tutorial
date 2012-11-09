@@ -849,8 +849,8 @@ layout.js:
             <a class="brand" href="/">Node.js demo app</a>
             <div class="nav-collapse collapse">
               <ul class="nav">
-                <li class="<%= route == '/home' && 'active' %>"><a href="/home">Home</a></li>
-                <li class="<%= route == '/about' && 'active' %>"><a href="/about">About</a></li>
+                <li class="<%= route == '/home' && 'active' || ''  %>"><a href="/home">Home</a></li>
+                <li class="<%= route == '/about' && 'active' || ''  %>"><a href="/about">About</a></li>
               </ul>
             </div>
           </div>
