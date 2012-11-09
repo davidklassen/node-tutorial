@@ -722,6 +722,163 @@ EJS нужно подключить к приложению в app.js
     $ git ci -m "Added home page"
     $ git push
 
+Предлагаю в качестве упражнения самостоятельно сделать страничку about, добавив необходимый экшн в контроллер pages и создав шаблон для неё. Не забываем примонтировать путь '/about' в app.js. Ну а начать нужно с тестов!
+
+####<a name="layout-and-twitter-bootstrap">2.4.3 Layout и Twitter Bootstrap</a>
+
+Если у вас получилось создать страницу "/about" то теперь у вас две страницы, если не получилось, можете выкачать готовый вариант из гитхаба
+
+    $ git clone blabla
+    $ git checkout blabla
+
+Как вы могли заметить, в наших вьюшках дублируется код и хотелось бы устранить этот недочет. Для этого создадим layout с базовым каркасом страницы. К сожалению ejs пока что не поддерживает layout-ы, но существует библиотека ejs-locals, которая добавляет этот функционал в шаблонизатор. Подключаем её в проект.
+
+package.json:
+
+    {
+        "name": "node-demo-app"
+      , "version": "0.0.1"
+      , "scripts": {
+        "start": "node server.js"
+      }
+      , "dependencies": {
+          "express": "3.0.1"
+        , "ejs": "0.8.3"
+        , "ejs-locals": "0.2.5"
+      }
+      , "devDependencies": {
+          "mocha": "1.7.0"
+        , "should": "1.2.1"
+        , "supertest": "0.4.0"
+      }
+    }
+
+Инсталируем:
+
+    $ npm install
+
+Добавляем в приложение app.js:
+
+    var express = require('express')
+      , ejsLocals = require('ejs-locals')
+      , app = express()
+      , pages = require(__dirname + '/controllers/pages')
+     
+    // configuration settings 
+    app.engine('ejs', ejsLocals)
+    app.set('views', __dirname + '/views')
+    app.set('view engine', 'ejs')
+    app.use(express.static(__dirname + '/public'))
+    
+    // mount routes
+    app.get('/', function (req, res) { res.redirect('home') })
+    app.get('/home', pages.home)
+    app.get('/about', pages.about)
+    
+    module.exports = app
+
+Создаем layout:
+
+    $ touch views/layout.ejs
+
+layout.ejs:
+
+    <!doctype html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title><%= title %></title>
+    </head>
+    <body>
+      <%- body -%>
+    </body>
+    </html>
+
+Этот файл будет общим каркасом для страниц, а конкретная вьюха будет рендериться на месте тега `<%- body -%>`.
+
+Теперь можно убрать лишний код из шаблонов home.ejs и about.ejs. Сейчас они идентичны и мы могли бы воспользоваться одним шаблоном для обоих экшнов, но как правило разные страницы имеют разный код так что представим себе, что он различается.
+
+home.ejs и about.ejs:
+
+    <% layout('../layout') -%>
+    <h1><%= title %></h1>
+    <p><%= message %></p>
+
+Внешне ничего не должно поменяться, чтобы убедиться в этом запустим tet-suite, а потом закоммитимся
+
+    $ make test
+    $ git add .
+    $ git ci -m "Added layout"
+    $ git push
+
+Осталось навести красоту, в этом нам поможет фреймворк для прототипирования под названием Twitter Bootstrap, его нужно скачать и положить в /public
+
+    $ wget http://twitter.github.com/bootstrap/assets/bootstrap.zip
+    $ unzip bootstrap.zip -d public/
+    $ rm bootstrap.zip
+
+Теперь воспользуемся шаблоном Bootstrap starter template и сделаем layout на его основе:
+
+layout.js:
+
+    <!doctype html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title><%= title %></title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+      <style>
+        body {
+          padding-top: 60px;
+        }
+      </style>
+      <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    
+      <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+      <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <![endif]-->
+    </head>
+    
+    <body>
+    
+      <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="/">Node.js demo app</a>
+            <div class="nav-collapse collapse">
+              <ul class="nav">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/about">About</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="container">
+        <%- body -%>
+      </div>
+      
+      <script src="http://code.jquery.com/jquery-latest.js"></script>
+      <script src="bootstrap/js/bootstrap.js"></script>
+    </body>
+    </html>
+
+Выполняем стандартную процедуру:
+
+    $ make test
+    $ git add .
+    $ git ci -m "Added twitter bootstrap"
+    $ git push
+
+Запускаем сервер:
+
+    $ npm start
+
+Любуемся получившейся красотой на http://localhost:3000/.
+
 ---
 
 ##<a name="user-model">Глава 3. Модель пользователя</a>
