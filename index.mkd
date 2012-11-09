@@ -463,13 +463,13 @@ Express пока не диктует строгой структуры для ф
 Содержимое Makefile:
 
     REPORTER=spec
+    TESTS=$(shell find ./tests -type f -name "*.js")
     
     test:
     	@./node_modules/.bin/mocha \
     		--require should \
-    		--bail \
     		--reporter $(REPORTER) \
-    		tests
+    		$(TESTS)
     		
     .PHONY: test
 
@@ -564,7 +564,54 @@ server.js заменяем на
 
 ####<a name="pages-controller">2.4.1 Контроллер статических страниц</a>
 
-Создаем контроллер для раздачи статичных страничек:
+Раз уж мы решили придерживаться TDD, то первым делом напишем тест для еще не созданного контроллера pages
+
+    $ mkdir tests/integration
+    $ touch tests/integration/pages.js
+
+pages.js:
+
+    var request = require('supertest')
+      , app = require(__dirname + '/../../app')
+      
+    describe('Pages', function () {
+      describe('GET /', function () {
+        it('should redirect to "home"', function (done) {
+          request(app)
+            .get('/')
+            .expect('location', '/home')
+            .expect(302, done)
+        })
+      })
+      
+      describe('GET /home', function () {
+        it('should return status code 200', function (done) {
+          request(app)
+            .get('/home')
+            .expect(200, done)
+        })
+        
+        it('should contain text "Home page"', function (done) {
+          request(app)
+            .get('/home')
+            .expect(/Home page/, done)
+        })
+      })
+    })
+
+Тут мы описали такие сценарии:
+  
+  * GET '/' должен редиректить на '/home'
+  * GET '/home' должен быть успешным
+  * GET '/home' должен в теле ответа содержать строку "Home page"
+
+Запускаем тесты
+
+    $ make test
+
+Убеждаемся в том что они все падают.
+
+Наша цель в том, чтобы тесты прошли. Создаем контроллер для раздачи статичных страничек:
 
     $ mkdir controllers
     $ touch controllers/pages.js
@@ -572,7 +619,7 @@ server.js заменяем на
 В этом контроллере создадим экшн, который будет отдавать нам домашнюю страничку приложения
 
     exports.home = function (req, res) {
-      res.send('I am "home" action of "pages" controller')
+      res.send('Home page')
     }
 
 Теперь подключим контроллер страниц, экшн примонтируем к пути '/home', а для пути '/' настроим редирект на '/home' в app.js
@@ -589,6 +636,10 @@ server.js заменяем на
     app.get('/home', pages.home)
     
     module.exports = app
+
+Запускаем тесты, если мы все сделали правильно, они должны пройти.
+
+    $ make test
 
 При попытке зайти на http://localhost:3000/ нас теперь перекинет на страничку home. С контроллером разобрались, теперь возьмемся за вьюхи.
 
@@ -664,8 +715,9 @@ EJS нужно подключить к приложению в app.js
 
 Наша "статическая" страница стала уже слегка "динамической". Любуемся результатом по адресу http://localhost:3000/home
 
-В принципе в этот момент было бы неплохо закомититься
+В принципе в этот момент было бы неплохо закомититься, предварительно прогнав тесты и убедившись, что наши улучшения ничего не поломали. Вообще это нужно принять за правило, перед коммитом всегда прогоняем test-suite.
 
+    $ make test
     $ git add .
     $ git ci -m "Added home page"
     $ git push
