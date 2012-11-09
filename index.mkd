@@ -30,6 +30,8 @@
     * [2.4 Статические страницы](#static-pages-sub)
         * [2.4.1 Контроллер статических страниц](#pages-controller)
         * [2.4.2 Шаблонизация и Views](#templates-and-views)
+        * [2.4.3 Layout и Twitter Bootstrap](#layout-and-twitter-bootstrap)
+        * [2.4.4 Деплой на Heroku](#templates-and-views)
 
 * ####[Глава 3. Модель пользователя](#user-model)
 
@@ -849,8 +851,8 @@ layout.js:
             <a class="brand" href="/">Node.js demo app</a>
             <div class="nav-collapse collapse">
               <ul class="nav">
-                <li class="<%= route == '/home' && 'active' || ''  %>"><a href="/home">Home</a></li>
-                <li class="<%= route == '/about' && 'active' || ''  %>"><a href="/about">About</a></li>
+                <li class="<%= route == '/home' && 'active' || '' %>"><a href="/home">Home</a></li>
+                <li class="<%= route == '/about' && 'active' || '' %>"><a href="/about">About</a></li>
               </ul>
             </div>
           </div>
@@ -904,6 +906,8 @@ layout.js:
     $ npm start
 
 Любуемся получившейся красотой на http://localhost:3000/.
+
+####<a name="deploy-static-pages">2.4.4 Деплой на Heroku</a>
 
 ---
 
