@@ -1,1 +1,1148 @@
-Node.js tutorial
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Node-tutorial : " />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Node-tutorial</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/DavidKlassen/node-tutorial">View on GitHub</a>
+
+          <h1 id="project_title">Node-tutorial</h1>
+          <h2 id="project_tagline"></h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/DavidKlassen/node-tutorial/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/DavidKlassen/node-tutorial/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="web---nodejs--express" class="anchor" href="#web---nodejs--express"><span class="octicon octicon-link"></span></a>Web-разработка на node.js и express</h1>
+
+<h3>
+<a name="-nodejs--" class="anchor" href="#-nodejs--"><span class="octicon octicon-link"></span></a>Изучаем node.js на практике</h3>
+
+<hr><h2>
+<a name="" class="anchor" href="#"><span class="octicon octicon-link"></span></a>Содержание</h2>
+
+<ul>
+<li><h4>
+<a name="-1" class="anchor" href="#-1"><span class="octicon octicon-link"></span></a><a href="#introduction">Вступление</a>
+</h4></li>
+<li>
+<h4>
+<a name="-1-" class="anchor" href="#-1-"><span class="octicon octicon-link"></span></a><a href="#start">Глава 1. Старт</a>
+</h4>
+
+<ul>
+<li>
+<a href="#environment">1.1 Рабочее окружение</a>
+
+<ul>
+<li><a href="#git-install">1.1.1 Установка git</a></li>
+<li><a href="#node-install">1.1.2 Установка node.js и npm</a></li>
+<li><a href="#ide">1.1.3 Среда разработки</a></li>
+<li><a href="#hello-world">1.1.4 Express и первое приложение</a></li>
+</ul>
+</li>
+<li>
+<a href="#version-control">1.2 Система контроля версий</a>
+
+<ul>
+<li><a href="#git-setup">1.2.1 Настройка git</a></li>
+<li><a href="#git-workflow">1.2.2 Работа с git</a></li>
+<li><a href="#github">1.2.3 github</a></li>
+</ul>
+</li>
+<li>
+<a href="#deploying">1.3 Разворачиваем приложение</a>
+
+<ul>
+<li><a href="#heroku-setup">1.3.1 Настройка Heroku</a></li>
+<li><a href="#deploy-hello-world">1.3.2 Разворачиваем приложение</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h4>
+<a name="-2--" class="anchor" href="#-2--"><span class="octicon octicon-link"></span></a><a href="#static-pages">Глава 2. Статические страницы</a>
+</h4>
+
+<ul>
+<li><a href="#mvc">2.1 Model-View-Controller (MVC)</a></li>
+<li>
+<a href="#sample-app">2.2 Демонстрационное приложение</a>
+
+<ul>
+<li><a href="#package.json">2.2.1 package.json</a></li>
+<li><a href="#hello-world">2.2.2 Hello, World!</a></li>
+<li><a href="#app-structure">2.2.3 Структура приложения</a></li>
+</ul>
+</li>
+<li><a href="#tests">2.3 Тестирование приложения</a></li>
+<li>
+<a href="#static-pages-sub">2.4 Статические страницы</a>
+
+<ul>
+<li><a href="#pages-controller">2.4.1 Контроллер статических страниц</a></li>
+<li><a href="#templates-and-views">2.4.2 Шаблонизация и Views</a></li>
+<li><a href="#layout-and-twitter-bootstrap">2.4.3 Layout и Twitter Bootstrap</a></li>
+<li><a href="#templates-and-views">2.4.4 Деплой на Heroku</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4>
+<a name="-3--" class="anchor" href="#-3--"><span class="octicon octicon-link"></span></a><a href="#user-model">Глава 3. Модель пользователя</a>
+</h4></li>
+</ul><hr><h2>
+<a name="-2" class="anchor" href="#-2"><span class="octicon octicon-link"></span></a><a name="introduction">Вступление</a>
+</h2>
+
+<p>Приветствую, перед вами небольшой учебник по практической разработке на node.js, с использованием фреймворка express. Я с большим энтузиазмом отношусь к node и сопутствующим технологиям. Node.js в первую очередь привлекает свежестью в подходах к разработке, смелостью и драйвом.</p>
+
+<p>О том, что такое node.js вы можете прочитать на <a href="http://nodejs.org/">http://nodejs.org/</a>, если коротко - то это серверная платформа, для выполнения javascript. Так же мы будем использовать express, web-фреймворк построеный на концепции <a href="http://stephensugden.com/middleware_guide/">middleware</a> (о том, что это такое, поговорим поподробнее чуть позже)</p>
+
+<p>В процессе изучения мы познакомимся с различными аспектами web-разработки, такими как использование системы контроля версий, автоматическое тестирование и так далее. В результате по ходу изучения мы разработаем вполне рабочее web-приложение (простенький аналог твиттера)</p>
+
+<p>Хочется отметить, что очень большое влияние на меня оказал <a href="http://ruby.railstutorial.org/ruby-on-rails-tutorial-book">railstutorial</a>, это лучшее пособие по web-разработке, которое я встречал, и мне очень хотелось бы создать нечто подобное для node.js.</p>
+
+<hr><h2>
+<a name="-1--1" class="anchor" href="#-1--1"><span class="octicon octicon-link"></span></a><a name="start">Глава 1. Старт</a>
+</h2>
+
+<p>В этой главе мы развернем рабочее окружение с нуля, установим все необходимые инструменты, создадим простенькое приложение и даже запустим его на облачном хостинге.</p>
+
+<h3>
+<a name="11--" class="anchor" href="#11--"><span class="octicon octicon-link"></span></a><a name="environment">1.1 Рабочее окружение</a>
+</h3>
+
+<p>Так как я в основном использую в работе linux, а если точнее - Ubuntu 12.04, основная часть инструкций по установке тех или иных инструментов будет ориентирована на ползователей линукс, но я буду стараться по возможности давать ссылки на инструкции и для других ОС.</p>
+
+<p>Для того чтобы точно следовать инструкциям в учебнике, вам нужно будет поставить систему контроля версий <a href="http://ru.wikipedia.org/wiki/Git">git</a>, дело в том, что мы не только будем размещать код своих проектов в git, но и устанавливать многие инструменты из репозиториев на <a href="https://github.com/">гитхабе</a>.</p>
+
+<p>Так что, первое что мы сделаем - это...</p>
+
+<h4>
+<a name="111--git" class="anchor" href="#111--git"><span class="octicon octicon-link"></span></a><a name="git-install">1.1.1 Установка git</a>
+</h4>
+
+<p>Пользователи apt-based дистрибутивов могут выполнить в терминале:</p>
+
+<pre><code>$ sudo apt-get install git-core
+</code></pre>
+
+<p>Остальные отправляются читать инструкции по адресу <a href="http://git-scm.com/book/ch1-4.html">http://git-scm.com/book/ch1-4.html</a></p>
+
+<h4>
+<a name="112--nodejs--npm" class="anchor" href="#112--nodejs--npm"><span class="octicon octicon-link"></span></a><a name="node-install">1.1.2 Установка node.js и npm</a>
+</h4>
+
+<p>Теперь пришло время поставить последнюю стабильню версию node.js (на текущий момент это 0.8.1) и npm (установщик пакетов для node). </p>
+
+<p>Инструкции по установке разных ОС можно найти <a href="https://github.com/joyent/node/wiki/Installation">здесь</a></p>
+
+<p>Для установки на ubuntu выполняем:</p>
+
+<pre><code>$ sudo apt-get install python-software-properties
+$ sudo add-apt-repository ppa:chris-lea/node.js
+$ sudo apt-get update
+$ sudo apt-get install nodejs npm
+</code></pre>
+
+<p>Если есть желание - можно запустить консоль node и поиграться с интерпретатором javascript.</p>
+
+<h4>
+<a name="113--" class="anchor" href="#113--"><span class="octicon octicon-link"></span></a><a name="ide">1.1.3 Среда разработки</a>
+</h4>
+
+<p>Тут каждый волен выбирать по своему вкусу, лично меня вполне устраивает gedit с установленным набором плагинов <a href="https://github.com/gmate/gmate/">gmate</a>. Вполне подходят Netbeans или Webstorm.</p>
+
+<h4>
+<a name="114-express---" class="anchor" href="#114-express---"><span class="octicon octicon-link"></span></a><a name="hello-world">1.1.4 Express и первое приложение</a>
+</h4>
+
+<p>Теперь пришло время познакомиться с фреймворком <a href="http://expressjs.com/">express</a>. Фреймворк очень простой, и вполне приемлемо документированный. Единственный неудобный момент - это то, что мы будем использовать бета версию 3.0.x а документация на официальном сайте написана для 2.x, так что советую иметь под рукой <a href="https://github.com/visionmedia/express/wiki/Migrating-from-2.x-to-3.x">migration guide</a></p>
+
+<p>Устанавливаем express глобально:</p>
+
+<pre><code>$ sudo npm install -g express
+</code></pre>
+
+<p>Создаем директорию для наших учебных проектов:</p>
+
+<pre><code>$ mkdir -p ~/projects/node-tutorial
+$ cd ~/projects/node-tutorial
+</code></pre>
+
+<p>Создаем проект и устанавливаем зависимости:</p>
+
+<pre><code>$ express first-app
+$ cd first-app &amp;&amp; npm install
+</code></pre>
+
+<p>Желающие могут покопаться в том что нам сгенерировал генератор приложений, думаю, что люди знакомые с javascript могут предположить что там происходит.</p>
+
+<p>Теперь приложение можно запустить:</p>
+
+<pre><code>$ node app
+</code></pre>
+
+<p>И увидеть результат работы <a href="http://localhost:3000/">http://localhost:3000/</a></p>
+
+<h3>
+<a name="12---" class="anchor" href="#12---"><span class="octicon octicon-link"></span></a><a name="version-control">1.2 Система контроля версий</a>
+</h3>
+
+<p>Теперь, когда у нас уже есть рабочее приложение, более подробно коснемся работы с сисемой контроля версий. Для того чтобы лучше познакомиться с работой git, стоит почитать книжку <a href="http://git-scm.com/book">Pro Git</a>, но можно и обойтись инструкциями в данном учебнике.</p>
+
+<h4>
+<a name="121--git" class="anchor" href="#121--git"><span class="octicon octicon-link"></span></a><a name="git-setup">1.2.1 Настройка git</a>
+</h4>
+
+<p>Для более комфортной работы с git стоит сначала указать свои личные данные:</p>
+
+<pre><code>$ git config --global user.name "Your Name"
+$ git config --global user.email your.email@example.com
+</code></pre>
+
+<p>И настроить алиасы для наиболее часто используемых комманд:</p>
+
+<pre><code>$ git config --global alias.co checkout
+$ git config --global alias.ci commit
+</code></pre>
+
+<h4>
+<a name="122---git" class="anchor" href="#122---git"><span class="octicon octicon-link"></span></a><a name="git-workflow">1.2.2 Работа с git</a>
+</h4>
+
+<p>Git настроен и можно размещать наше приложение в репозитории, инициализируем новый репозиторий:</p>
+
+<pre><code>$ git init
+</code></pre>
+
+<p>Добавляем директорию с зависимостями приложения в gitignore:</p>
+
+<pre><code>$ echo 'node_modules' &gt; .gitignore
+</code></pre>
+
+<p>Помещаем все файлы в индекс и создаем первый коммит:</p>
+
+<pre><code>$ git add .
+$ git ci -m "Initial commit"
+</code></pre>
+
+<h4>
+<a name="123-github" class="anchor" href="#123-github"><span class="octicon octicon-link"></span></a><a name="github">1.2.3 github</a>
+</h4>
+
+<p>После размещения кода проекта в репозитории пришло время выложить проект на <a href="http://github.com/">GitHub</a>. GitHub - это социальная сеть и хостинг для проектов. Огромное число opensource проектов хостится на гитхабе, так что если вы там еще не зарегистрированы - самое время <a href="http://github.com/signup/free">сделать это</a>. </p>
+
+<p>Перед тем как работать с GitHub нужно будет создать RSA ключи для доступа по ssh. Процедура описана <a href="https://help.github.com/articles/generating-ssh-keys">тут</a>. Для пользователей linux привожу инструкцию по созданию ключей если их у вас еще нет.</p>
+
+<pre><code>$ ssh-keygen -t rsa -C "your_email@youremail.com"
+</code></pre>
+
+<p>Отвечаем на вопросы генератора, после чего копируем содержимое файла <code>~/.ssh/id_rsa.pub</code>:</p>
+
+<pre><code>$ sudo apt-get install xclip
+$ xclip -sel clip &lt; ~/.ssh/id_rsa.pub
+</code></pre>
+
+<p>После этого нужно пройти по ссылке <a href="https://github.com/settings/profile">Account Settings</a>, зайти в раздел SSH Keys и нажать кнопку Add SSH Key и вставить ключ из буфера обмена в поле Key. Затем сохранить.</p>
+
+<p>Проверить что ключ работает можно так:</p>
+
+<pre><code>$ ssh -T git@github.com
+</code></pre>
+
+<p>Возможно вы увидете предупреждение:</p>
+
+<pre><code>The authenticity of host 'github.com (207.97.227.239)' can't be established.
+# RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
+# Are you sure you want to continue connecting (yes/no)?
+</code></pre>
+
+<p>Нужно просто ответить 'yes' и тогда, если ключ успешно добавился, вы увидите ответ сервера:</p>
+
+<pre><code>Hi username! You've successfully authenticated, but GitHub does not
+# provide shell access.
+</code></pre>
+
+<p>Когда ключи настроены <a href="https://github.com/new">создаем</a> новый репозиторий с названием first-app и дефолтными настройками, после чего выкладываем код на гитхаб:</p>
+
+<pre><code>$ git remote add origin git@github.com:ваш_ник_на_гитхабе/first-app.git
+$ git push -u origin master
+</code></pre>
+
+<h3>
+<a name="13--" class="anchor" href="#13--"><span class="octicon octicon-link"></span></a><a name="deploying">1.3 Разворачиваем приложение</a>
+</h3>
+
+<p>Теперь наступает самый волнующий этап, мы будем разворачивать приложение на хостинге.
+Для этого воспользуемся услугами облачной системы деплоя <a href="http://www.heroku.com/">Heroku</a>. Если вам интересно как работает хостинг Heroku, советую поизучать их раздел <a href="http://www.heroku.com/how">How it Works</a></p>
+
+<h4>
+<a name="131--heroku" class="anchor" href="#131--heroku"><span class="octicon octicon-link"></span></a><a name="heroku-setup">1.3.1 Настройка Heroku</a>
+</h4>
+
+<p>Для начала нам надо <a href="https://api.heroku.com/signup">зарегистрироваться</a> и установить необходимый <a href="https://toolbelt.heroku.com/">инструментарий</a>.</p>
+
+<p>Пользователи ubuntu выполняют:</p>
+
+<pre><code>$ wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+</code></pre>
+
+<p>Когда установка завершится, нужно будет залогиниться из коммандной строки:</p>
+
+<pre><code>$ heroku login
+</code></pre>
+
+<h4>
+<a name="132----heroku" class="anchor" href="#132----heroku"><span class="octicon octicon-link"></span></a><a name="deploy-hello-world">1.3.2 Размещаем приложение на heroku</a>
+</h4>
+
+<p>Теперь наше окружение полностью готов к выкладке на хостинг. Размещение node.js проекта на Heroku требует еще нескольких действий, вы можете почитать об этом в <a href="https://devcenter.heroku.com/articles/nodejs">документации</a> или просто выполнить инструкции.</p>
+
+<p>В файле package.json нашего проекта, нужно указать версии ноды и npm, package.json должен выглядеть так:</p>
+
+<pre><code>{
+  "name": "application-name",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "express": "3.0.0beta4",
+    "jade": "*"
+  },
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
+  }
+}
+</code></pre>
+
+<p>Теперь в корне проекта создаем файл Procfile:</p>
+
+<pre><code>$ echo 'web: node app.js'  &gt; Procfile
+</code></pre>
+
+<p>Проверяем что все запускается с помощью менеджера процессов:</p>
+
+<pre><code>$ foreman start
+</code></pre>
+
+<p>Приложение должно быть доступно на <a href="http://localhost:5000/">http://localhost:5000/</a></p>
+
+<p>Добавляем файлы в репозиторий:</p>
+
+<pre><code>$ git add .
+$ git ci -m "Added Procfile and engines"
+$ git push
+</code></pre>
+
+<p>Создаем приложение на heroku:</p>
+
+<pre><code>$ heroku create
+$ heroku keys:add ~/.ssh/id_rsa.pub
+$ git push heroku master
+</code></pre>
+
+<p>Набираем:</p>
+
+<pre><code>$ heroku open
+</code></pre>
+
+<p>и любуемся задеплоеным приложением.</p>
+
+<hr><h2>
+<a name="-2---1" class="anchor" href="#-2---1"><span class="octicon octicon-link"></span></a><a name="static-pages">Глава 2. Статические страницы</a>
+</h2>
+
+<p>В этой главе мы приступим к разработке нашего приложения, которое мы будем использовать в качестве примера на протяжении всего учебника, и начнем с самого простого, а именно со статических страниц.</p>
+
+<h3>
+<a name="21-model-view-controller-mvc" class="anchor" href="#21-model-view-controller-mvc"><span class="octicon octicon-link"></span></a><a name="mvc">2.1 Model-View-Controller (MVC)</a>
+</h3>
+
+<p>Перед тем как приступать собственно к разработке приложения, полезно поговорить о том, что из себя представляет типичная архитектура web-приложения на наиболее высоком уровне абстракции. Самым популярным архитектурным паттерном на сегодняшний день является <a href="http://%D1%81%D1%81%D1%8B%D0%BB%D0%BA%D0%B0.%D0%BD%D0%B0.%D0%B2%D0%B8%D0%BA%D0%B8%D0%BF%D0%B5%D0%B4%D0%B8%D1%8E">model-view-controller</a> (MVC), общий смысл паттерна заключается в том, чтобы разделить бизнес логику приложения (её привязывают к моделям) и представление - view. Кроме того, модели реализуют интерфейс к базе данных. Контроллер играет роль посредника между моделью и представлением. В случае web-приложения - это выглядит так: браузер пользователя отправляет запрос на сервер, контроллер обрабатывает запрос, получает необходимые данные из модели и отправляет их во view. View получает данные из контроллера и превращает их в красивую HTML страничку, которую контроллер в итоге отправит пользователю.</p>
+
+<p><img src="mvc.jpg" alt=""></p>
+
+<h3>
+<a name="22--" class="anchor" href="#22--"><span class="octicon octicon-link"></span></a><a name="sample-app">2.2 Демонстрационное приложение</a>
+</h3>
+
+<p>Пришло время приступить к разработке нашего демонстрационного приложения. В первой главе мы уже развернули тестовое приложение, но воспользовались при этом генератором express и не написали ни строчки кода. Теперь мы будем писать наше приложение сами и начнем с "Hello, World".</p>
+
+<pre><code>$ cd ~/projects/node-tutorial
+$ mkdir node-demo-app
+$ cd node-sample-app
+</code></pre>
+
+<h4>
+<a name="221-packagejson" class="anchor" href="#221-packagejson"><span class="octicon octicon-link"></span></a><a name="package.json">2.2.1 package.json</a>
+</h4>
+
+<p>Для того чтобы воспользоваться всеми прелестями, которые нам может предоставить npm (зачем, что это такое  и ссылка), мы создадим в корневой лиректории нашего проекта файлик package.json:</p>
+
+<pre><code>{
+    "name": "node-demo-app"
+  , "version": "0.0.1"
+  , "scripts": {
+    "start": "node server.js"
+  }
+  , "dependencies": {
+    "express": "3.0.1"
+  }
+}
+</code></pre>
+
+<p>TODO: Описание полей и ссылка на доки по package.json</p>
+
+<p>Теперь можно выполнить</p>
+
+<p>$ npm install</p>
+
+<p>В результате npm создаст директорию node_modules в которую поместит все модули от которых зависит наш проект.</p>
+
+<h4>
+<a name="222-hello-world" class="anchor" href="#222-hello-world"><span class="octicon octicon-link"></span></a><a name="hello-world">2.2.2 Hello, World!</a>
+</h4>
+
+<p>Основной файл назовем server.js:</p>
+
+<pre><code>var express = require('express')
+  , app = express()
+  , port = process.env.PORT || 3000
+
+app.get('/', function (req, res) {
+  res.send('Hello, World!')
+})
+
+app.listen(port, function () {
+  console.log('Listening on port ', port)
+})
+</code></pre>
+
+<p>Для того, чтобы полюбоваться результатом нашего труда, есть два способа:</p>
+
+<pre><code>$ node server.js
+</code></pre>
+
+<p>либо</p>
+
+<pre><code>$ npm start
+</code></pre>
+
+<p>Второй способ доступен потому что мы добавили соответствующую строчку в файл конфигурации package.json.</p>
+
+<p>Теперь по адресу http://localhost:3000/ можно получить строчку 'Hello, World!'.</p>
+
+<p>Настало время залить что-нибудь в GitHub. Создаем новый репозиторий и выполняем в директории проекта следующий набор комманд, сперва создадим файл README.md (правило хорошего тона)</p>
+
+<pre><code>$ echo '# Node.js demo app' &gt; README.md
+</code></pre>
+
+<p>Создадим файл .gitignore для того чтобы не коммитить лишние файлы в git, а именно директорию node_modules:</p>
+
+<pre><code>$ echo 'node_modules' &gt; .gitignore
+</code></pre>
+
+<p>Создаем репозиторий, коммитимся и заливаем все на GitHub</p>
+
+<pre><code>$ git init
+$ git add .
+$ git commit -m 'Hello, World'
+$ git remote add origin git@github.com:&lt;username&gt;/node-demo-app.git
+$ git push -u origin master
+</code></pre>
+
+<h4>
+<a name="223--" class="anchor" href="#223--"><span class="octicon octicon-link"></span></a><a name="app-structure">2.2.3 Структура приложения</a>
+</h4>
+
+<p>Express пока не диктует строгой структуры для файлов приложения, так что мы придумаем свою. Предлагаю такой вариант:</p>
+
+<pre><code>/node-demo-app
+|- /controllers   - директория с контроллерами
+|- /models        - модели приложения
+|- /public        - статика - картинки, клиентские скрипты, стили и т.д.
+|- /tests         - автоматические тесты
+|- /views         - html темплейты
+|- app.js         - основной файл приложения
+|- config.js      - файл с настройками приложения
+|- server.js      - http сервер
+</code></pre>
+
+<p>Думаю, что для начала этого хватит.</p>
+
+<h3>
+<a name="23--" class="anchor" href="#23--"><span class="octicon octicon-link"></span></a><a name="tests">2.3 Тестирование приложения</a>
+</h3>
+
+<p>О том что такое TDD и зачем нужно писать тесты вы наверняка уже слышали, а если нет, то можете прочитать об этом здесь .... В этом учебнике, для тестирования приложения мы воспользуемся подходом который называется BDD (behavior-driven development). В тестах мы будем описывать предполагаемое поведение приложения. Сами тесты разделим на две категории: integration тесты - они будут имитировать поведение пользователя и тестировать систему целиком, и unit тесты - для тестирования отдельных модулей приложения. В качестве фреймворков мы будем использовать библиотеки Mocha (читается как мокка, кофе-мокка :)), should.js, и supertest. Mocha служит для организации описаний тест-кейсов, should.js предоставляет синтаксис для осуществления различных проверок, а supertest - это надстройка над простеньким http-клиентом, которая позволяет проверять результаты http-запросов. Для подключения библиотек сделаем необходимые изменения в package.json</p>
+
+<pre><code>{
+    "name": "node-demo-app"
+  , "version": "0.0.1"
+  , "scripts": {
+    "start": "node server.js"
+  }
+  , "dependencies": {
+      "express": "3.0.1"
+  }
+  , "devDependencies": {
+      "mocha": "1.7.0"
+    , "should": "1.2.1"
+    , "supertest": "0.4.0"
+  }
+}
+</code></pre>
+
+<p>Зависимости мы разместили в разделе "devDependencies", так как нет никакой необходимости тащить эти библиотеки на продакшн сервер. Для установки библиотек выполняем</p>
+
+<pre><code>$ npm install
+</code></pre>
+
+<p>Для того что бы понять как это работает, попробуем создать свой первый тест и прогнать его через наш фреймворк</p>
+
+<pre><code>$ mkdir tests
+$ touch tests/test.js
+</code></pre>
+
+<p>В test.js положим такой тест</p>
+
+<pre><code>describe('Truth', function () {
+  it('should be true', function () {
+    true.should.be.true
+  })
+
+  it('should not be false', function () {
+    true.should.not.be.false
+  })
+})
+</code></pre>
+
+<p>и запустим его</p>
+
+<pre><code>$ ./node_modules/.bin/mocha --require should --reporter spec tests
+</code></pre>
+
+<p>Вполне естественно, что такой тест пройдет, так что заменим его на что-то неработающее</p>
+
+<pre><code>describe('foo variable', function () {
+  it('should equal bar', function () {
+    foo.should.equal('bar')
+  })
+})
+</code></pre>
+
+<p>запускаем</p>
+
+<pre><code>$ ./node_modules/.bin/mocha --require should --reporter spec tests
+</code></pre>
+
+<p>и видим, что тесты не прошли, придется чинить код, добавляем объявление переменной</p>
+
+<pre><code>var foo = 'bar'
+
+describe('foo variable', function () {
+  it('should equal bar', function () {
+    foo.should.equal('bar')
+  })
+})
+</code></pre>
+
+<p>запускаем</p>
+
+<pre><code>$ ./node_modules/.bin/mocha --require should --reporter spec tests
+</code></pre>
+
+<p>и видим что код рабочий.</p>
+
+<p>Основной принцип TDD состоит в том, чтобы напсать тесты до того как написан код, таким образом мы можем убедиться в том, что тесты действительно что-то тестируют, а не просто запускают код на выполнение и делают проверки в стиле true.should.be.true. То есть процесс разработки выглядит следующим образом:</p>
+
+<ol>
+<li>Пишем тест</li>
+<li>Выполняем тест и убеждаемся в том что он падает</li>
+<li>Пишем код</li>
+<li>Выполняем тест и убеждаемся в том что он проходит, если нет, возвращаемся в п.3</li>
+</ol><p>И так много раз.</p>
+
+<p>Чтобы упростить запуск тестов добавим таск прогоняющий тесты в Makefile</p>
+
+<pre><code>$ touch Makefile
+</code></pre>
+
+<p>Содержимое Makefile:</p>
+
+<pre><code>REPORTER=spec
+TESTS=$(shell find ./tests -type f -name "*.js")
+
+test:
+    @./node_modules/.bin/mocha \
+        --require should \
+        --reporter $(REPORTER) \
+        $(TESTS)
+
+.PHONY: test
+</code></pre>
+
+<p>Обращаю внимание на то, что отступы после названия таска должны быть сделаны табами, а не пробелами. Теперь test-suite можно запускать коммандой</p>
+
+<pre><code>$ make test
+</code></pre>
+
+<p>Попробуем потестировать http запросы. Для того чтобы сделать тестирование более удобным проведем небольшой рефакторинг кода и вынесем приложение express из файла server.js в отдельный модуль app.js</p>
+
+<pre><code>$ touch app.js
+</code></pre>
+
+<p>app.js:</p>
+
+<pre><code>var express = require('express')
+  , app = express()
+
+// mount routes
+app.get('/', function (req, res) {
+  res.send('Hello, World!')
+})
+
+module.exports = app
+</code></pre>
+
+<p>TODO: Написать про систему модулей в node.js</p>
+
+<p>server.js заменяем на</p>
+
+<pre><code>var app = require(__dirname + '/app')
+
+app.listen(3000, function () {
+  console.log('Listening on port ', 3000)
+})
+</code></pre>
+
+<p>Для того, чтобы проверить корректность http запроса напишем в test.js следующий код</p>
+
+<pre><code>var request = require('supertest')
+  , app = require(__dirname + '/../app')
+
+describe('GET /', function () {
+  it('should contain text "Hello, Express!"', function (done) {
+     request(app)
+       .get('/')
+       .expect(/Hello, Express!/, done)
+  })
+})
+</code></pre>
+
+<p>В этом тесте мы проверяем, что сервер отвечает нам строчкой "Hello, Express!". Так как вместо этого сервер отвечает "Hello, World!", тест упадет. Важный момент, на который нужно обратить внимание, запросы к http серверу происходят асинхронно, по-этому нам нужно будет назначить callback на завешение теста. Mocha предоставляет такую возможность с помощью функции done, которую можно опционально передать в функцию с тест-кейсом. Чтобы тест прошел, нужно заменить строчку "Hello, World!" на "Hello, Express!" в файле app.js и выполнить <code>make test</code>.</p>
+
+<p>С тестами мы разобрались, так что удаляем тестовый тест</p>
+
+<pre><code>$ rm tests/test.js
+</code></pre>
+
+<p>И коммитимся</p>
+
+<pre><code>$ git add .
+$ git ci -m "Added testing framework"
+$ git push
+</code></pre>
+
+<h3>
+<a name="24--" class="anchor" href="#24--"><span class="octicon octicon-link"></span></a><a name="static-pages-sub">2.4 Статические страницы</a>
+</h3>
+
+<p>Конечно статические страницы можно сделать по настоящему статическими, то есть разместить файл к примеру index.html со следующим содержанием:</p>
+
+<pre><code>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;Hello, World!&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Hello, World!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>в директории public, и научить приложение отдавать его как статику. Делается это с помощью добавления строчки <code>app.use(express.static(__dirname + '/public'))</code> в app.js</p>
+
+<pre><code>var express = require('express')
+  , app = express()
+
+app.use(express.static(__dirname + '/public'))
+
+app.get('/', function (req, res) {
+  res.send('Hello, World!')
+})
+
+module.exports = app
+</code></pre>
+
+<p>Все файлы в директории /public после этого будут отдаваться как статика (http://localhost:3000/index.html). Но нам это не очень интересно, так что стираем ненужный index.html</p>
+
+<pre><code>$ rm public/index.html
+</code></pre>
+
+<p>и...</p>
+
+<h4>
+<a name="241---" class="anchor" href="#241---"><span class="octicon octicon-link"></span></a><a name="pages-controller">2.4.1 Контроллер статических страниц</a>
+</h4>
+
+<p>Раз уж мы решили придерживаться TDD, то первым делом напишем тест для еще не созданного контроллера pages</p>
+
+<pre><code>$ mkdir tests/integration
+$ touch tests/integration/pages.js
+</code></pre>
+
+<p>pages.js:</p>
+
+<pre><code>var request = require('supertest')
+  , app = require(__dirname + '/../../app')
+
+describe('Pages', function () {
+  describe('GET /', function () {
+    it('should redirect to "home"', function (done) {
+      request(app)
+        .get('/')
+        .expect('location', '/home')
+        .expect(302, done)
+    })
+  })
+
+  describe('GET /home', function () {
+    it('should return status code 200', function (done) {
+      request(app)
+        .get('/home')
+        .expect(200, done)
+    })
+
+    it('should contain text "Home page"', function (done) {
+      request(app)
+        .get('/home')
+        .expect(/Home page/, done)
+    })
+  })
+})
+</code></pre>
+
+<p>Тут мы описали такие сценарии:</p>
+
+<ul>
+<li>GET '/' должен редиректить на '/home'</li>
+<li>GET '/home' должен быть успешным</li>
+<li>GET '/home' должен в теле ответа содержать строку "Home page"</li>
+</ul><p>Запускаем тесты</p>
+
+<pre><code>$ make test
+</code></pre>
+
+<p>Убеждаемся в том что они все падают.</p>
+
+<p>Наша цель в том, чтобы тесты прошли. Создаем контроллер для раздачи статичных страничек:</p>
+
+<pre><code>$ mkdir controllers
+$ touch controllers/pages.js
+</code></pre>
+
+<p>В этом контроллере создадим экшн, который будет отдавать нам домашнюю страничку приложения</p>
+
+<pre><code>exports.home = function (req, res) {
+  res.send('Home page')
+}
+</code></pre>
+
+<p>Теперь подключим контроллер страниц, экшн примонтируем к пути '/home', а для пути '/' настроим редирект на '/home' в app.js</p>
+
+<pre><code>var express = require('express')
+  , app = express()
+  , pages = require(__dirname + '/controllers/pages') 
+
+// configuration settings 
+app.use(express.static(__dirname + '/public'))
+
+// mount routes
+app.get('/', function (req, res) { res.redirect('home') })
+app.get('/home', pages.home)
+
+module.exports = app
+</code></pre>
+
+<p>Запускаем тесты, если мы все сделали правильно, они должны пройти.</p>
+
+<pre><code>$ make test
+</code></pre>
+
+<p>При попытке зайти на http://localhost:3000/ нас теперь перекинет на страничку home. С контроллером разобрались, теперь возьмемся за вьюхи.</p>
+
+<h4>
+<a name="242---views" class="anchor" href="#242---views"><span class="octicon octicon-link"></span></a><a name="templates-and-views">2.4.2 Шаблонизация и Views</a>
+</h4>
+
+<p>Express в качестве движка дял шаблонизации позоляет подключать разные бибилотеки, такие как ..placeholder.. Мы воспользуемся ejs т.к. как ее синтаксис приближен к html и возможно привычен большинству. Для этого в package.json добавим зависимость "ejs": "0.8.3"</p>
+
+<pre><code>{
+    "name": "node-demo-app"
+  , "version": "0.0.1"
+  , "scripts": {
+    "start": "node server.js"
+  }
+  , "dependencies": {
+      "express": "3.0.1"
+    , "ejs": "0.8.3"
+  }
+  , "devDependencies": {
+      "mocha": "1.7.0"
+    , "should": "1.2.1"
+    , "supertest": "0.4.0"
+  }
+}
+</code></pre>
+
+<p>И выполним</p>
+
+<pre><code>$ npm install
+</code></pre>
+
+<p>EJS нужно подключить к приложению в app.js</p>
+
+<pre><code>var express = require('express')
+  , app = express()
+  , pages = require(__dirname + '/controllers/pages')
+
+// configuration settings 
+app.set('views', __dirname + '/views')
+app.set('view engine', 'ejs')
+app.use(express.static(__dirname + '/public'))
+
+// mount routes
+app.get('/', function (req, res) { res.redirect('home') })
+app.get('/home', pages.home)
+
+module.exports = app
+</code></pre>
+
+<p>Шаблоны мы будем хранить в директории '/views' с поддиректорией для каждого контроллера и начнем с шаблона для страницы home</p>
+
+<pre><code>$ mkdir -p views/pages
+$ touch views/pages/home.ejs
+</code></pre>
+
+<p>В этом файле можно разместить шаблон для странички и использовать переменные, которые туда передаст контроллер, например</p>
+
+<pre><code>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;&lt;%= title %&gt;&lt;/h1&gt;
+  &lt;p&gt;&lt;%= message %&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>В данном случае используются переменные <code>title</code> и <code>message</code>. И поменяем экшн home в контроллере pages</p>
+
+<pre><code>exports.home = function (req, res) {
+  res.render('pages/home', {
+      title: 'Home page'
+    , message: 'This is the "home" action of "pages" controller'
+  })
+}
+</code></pre>
+
+<p>Наша "статическая" страница стала уже слегка "динамической". Любуемся результатом по адресу http://localhost:3000/home</p>
+
+<p>В принципе в этот момент было бы неплохо закомититься, предварительно прогнав тесты и убедившись, что наши улучшения ничего не поломали. Вообще это нужно принять за правило, перед коммитом всегда прогоняем test-suite.</p>
+
+<pre><code>$ make test
+$ git add .
+$ git ci -m "Added home page"
+$ git push
+</code></pre>
+
+<p>Предлагаю в качестве упражнения самостоятельно сделать страничку about, добавив необходимый экшн в контроллер pages и создав шаблон для неё. Не забываем примонтировать путь '/about' в app.js. Ну а начать нужно с тестов!</p>
+
+<h4>
+<a name="243-layout--twitter-bootstrap" class="anchor" href="#243-layout--twitter-bootstrap"><span class="octicon octicon-link"></span></a><a name="layout-and-twitter-bootstrap">2.4.3 Layout и Twitter Bootstrap</a>
+</h4>
+
+<p>Если у вас получилось создать страницу "/about" то теперь у вас две страницы, если не получилось, можете выкачать готовый вариант из гитхаба</p>
+
+<pre><code>$ git clone blabla
+$ git checkout blabla
+</code></pre>
+
+<p>Как вы могли заметить, в наших вьюшках дублируется код и хотелось бы устранить этот недочет. Для этого создадим layout с базовым каркасом страницы. К сожалению ejs пока что не поддерживает layout-ы, но существует библиотека ejs-locals, которая добавляет этот функционал в шаблонизатор. Подключаем её в проект.</p>
+
+<p>package.json:</p>
+
+<pre><code>{
+    "name": "node-demo-app"
+  , "version": "0.0.1"
+  , "scripts": {
+    "start": "node server.js"
+  }
+  , "dependencies": {
+      "express": "3.0.1"
+    , "ejs": "0.8.3"
+    , "ejs-locals": "0.2.5"
+  }
+  , "devDependencies": {
+      "mocha": "1.7.0"
+    , "should": "1.2.1"
+    , "supertest": "0.4.0"
+  }
+}
+</code></pre>
+
+<p>Инсталируем:</p>
+
+<pre><code>$ npm install
+</code></pre>
+
+<p>Добавляем в приложение app.js:</p>
+
+<pre><code>var express = require('express')
+  , ejsLocals = require('ejs-locals')
+  , app = express()
+  , pages = require(__dirname + '/controllers/pages')
+
+// configuration settings 
+app.engine('ejs', ejsLocals)
+app.set('views', __dirname + '/views')
+app.set('view engine', 'ejs')
+app.use(express.static(__dirname + '/public'))
+
+// mount routes
+app.get('/', function (req, res) { res.redirect('home') })
+app.get('/home', pages.home)
+app.get('/about', pages.about)
+
+module.exports = app
+</code></pre>
+
+<p>Создаем layout:</p>
+
+<pre><code>$ touch views/layout.ejs
+</code></pre>
+
+<p>layout.ejs:</p>
+
+<pre><code>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;%- body -%&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>Этот файл будет общим каркасом для страниц, а конкретная вьюха будет рендериться на месте тега <code>&lt;%- body -%&gt;</code>.</p>
+
+<p>Теперь можно убрать лишний код из шаблонов home.ejs и about.ejs. Сейчас они идентичны и мы могли бы воспользоваться одним шаблоном для обоих экшнов, но как правило разные страницы имеют разный код так что представим себе, что он различается.</p>
+
+<p>home.ejs и about.ejs:</p>
+
+<pre><code>&lt;% layout('../layout') -%&gt;
+&lt;h1&gt;&lt;%= title %&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;%= message %&gt;&lt;/p&gt;
+</code></pre>
+
+<p>Внешне ничего не должно поменяться, чтобы убедиться в этом запустим tet-suite, а потом закоммитимся</p>
+
+<pre><code>$ make test
+$ git add .
+$ git ci -m "Added layout"
+$ git push
+</code></pre>
+
+<p>Осталось навести красоту, в этом нам поможет фреймворк для прототипирования под названием Twitter Bootstrap, его нужно скачать и положить в /public</p>
+
+<pre><code>$ wget http://twitter.github.com/bootstrap/assets/bootstrap.zip
+$ unzip bootstrap.zip -d public/
+$ rm bootstrap.zip
+</code></pre>
+
+<p>Теперь воспользуемся шаблоном Bootstrap starter template и сделаем layout на его основе:</p>
+
+<p>layout.js:</p>
+
+<pre><code>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;link href="bootstrap/css/bootstrap.css" rel="stylesheet"&gt;
+  &lt;style&gt;
+    body {
+      padding-top: 60px;
+    }
+  &lt;/style&gt;
+  &lt;link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet"&gt;
+
+  &lt;!-- HTML5 shim, for IE6-8 support of HTML5 elements --&gt;
+  &lt;!--[if lt IE 9]&gt;
+    &lt;script src="http://html5shim.googlecode.com/svn/trunk/html5.js"&gt;&lt;/script&gt;
+  &lt;![endif]--&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+  &lt;div class="navbar navbar-inverse navbar-fixed-top"&gt;
+    &lt;div class="navbar-inner"&gt;
+      &lt;div class="container"&gt;
+        &lt;a class="brand" href="/"&gt;Node.js demo app&lt;/a&gt;
+        &lt;div class="nav-collapse collapse"&gt;
+          &lt;ul class="nav"&gt;
+            &lt;li class="&lt;%= route == '/home' &amp;&amp; 'active' || '' %&gt;"&gt;&lt;a href="/home"&gt;Home&lt;/a&gt;&lt;/li&gt;
+            &lt;li class="&lt;%= route == '/about' &amp;&amp; 'active' || '' %&gt;"&gt;&lt;a href="/about"&gt;About&lt;/a&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class="container"&gt;
+    &lt;%- body -%&gt;
+  &lt;/div&gt;
+
+  &lt;script src="http://code.jquery.com/jquery-latest.js"&gt;&lt;/script&gt;
+  &lt;script src="bootstrap/js/bootstrap.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>Чтобы добавить в шаблон переменную <code>route</code>, которую мы используем для подсветки ссылки на текущую страницу, добавим немножко кода в app.js.</p>
+
+<pre><code>var express = require('express')
+  , ejsLocals = require('ejs-locals')
+  , app = express()
+  , pages = require(__dirname + '/controllers/pages')
+
+// configuration settings 
+app.engine('ejs', ejsLocals)
+app.set('views', __dirname + '/views')
+app.set('view engine', 'ejs')
+app.use(express.static(__dirname + '/public'))
+
+// set view locals
+app.use(function (req, res, next) {
+  app.locals.route = req.url
+  next()
+})
+
+// mount routes
+app.get('/', function (req, res) { res.redirect('home') })
+app.get('/home', pages.home)
+app.get('/about', pages.about)
+
+module.exports = app
+</code></pre>
+
+<p>Выполняем стандартную процедуру:</p>
+
+<pre><code>$ make test
+$ git add .
+$ git ci -m "Added twitter bootstrap"
+$ git push
+</code></pre>
+
+<p>Запускаем сервер:</p>
+
+<pre><code>$ npm start
+</code></pre>
+
+<p>Любуемся получившейся красотой на http://localhost:3000/.</p>
+
+<h4>
+<a name="244---heroku" class="anchor" href="#244---heroku"><span class="octicon octicon-link"></span></a><a name="deploy-static-pages">2.4.4 Деплой на Heroku</a>
+</h4>
+
+<p>Мы уже разворачивали приложение в первой главе, так что просто повторим процесс. Добавляем версии node.js и npm в package.json:</p>
+
+<pre><code>{
+    "name": "node-demo-app"
+  , "version": "0.0.1"
+  , "scripts": { "start": "node server.js" }
+  , "dependencies": {
+      "express": "3.0.1"
+    , "ejs": "0.8.3"
+    , "ejs-locals": "0.2.5"
+  }
+  , "devDependencies": {
+      "mocha": "1.7.0"
+    , "should": "1.2.1"
+    , "supertest": "0.4.0"
+  }
+  , "engines": {
+      "node": "0.8.x"
+    , "npm": "1.1.x"
+  }
+}
+</code></pre>
+
+<p>Создаем Procfile:</p>
+
+<pre><code>$ echo 'web: node server.js'  &gt; Procfile
+</code></pre>
+
+<p>Отправляем приложение на heroku:</p>
+
+<pre><code>$ heroku create
+$ git push heroku master
+$ heroku open
+</code></pre>
+
+<hr><h2>
+<a name="-3---1" class="anchor" href="#-3---1"><span class="octicon octicon-link"></span></a><a name="user-model">Глава 3. Модель пользователя</a>
+</h2>
+
+<p>Suspendisse hendrerit quam mollis magna pharetra ac convallis justo laoreet. Morbi sit amet malesuada arcu. Sed adipiscing tempus rutrum. Aenean lacinia metus et augue aliquam pulvinar. Praesent nulla ante, ullamcorper vitae varius quis, ullamcorper sit amet risus. Nulla facilisi. Ut risus arcu, convallis a ornare eu, tempor sed elit. Mauris auctor, tellus cursus congue convallis, lorem neque hendrerit turpis, at viverra erat ipsum ut nunc. Fusce non lectus massa, vitae imperdiet lorem. Curabitur dapibus ullamcorper est, ut vestibulum 
+diam sollicitudin sit amet. </p>
+
+<hr><p>Copyright David Klassen, 2012. </p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Node-tutorial maintained by <a href="https://github.com/DavidKlassen">DavidKlassen</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
